@@ -61,7 +61,7 @@ class BooksApp extends React.Component {
               <div>
                 <CurrentlyReading booksOnShelf={this.state.currentlyReading} />
                 <WantToRead booksOnShelf={this.state.wantToRead} />
-                <HaveRead />
+                <HaveRead booksOnShelf={this.state.read}/>
               </div>
             </div>
             <div className="open-search">
