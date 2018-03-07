@@ -1,8 +1,6 @@
 import React from 'react'
 import Header from './Header'
-import CurrentlyReading from './CurrentlyReading'
-import WantToRead from './WantToRead'
-import HaveRead from './HaveRead'
+import Shelf from './Shelf'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
@@ -59,9 +57,18 @@ class BooksApp extends React.Component {
             <Header />
             <div className="list-books-content">
               <div>
-                <CurrentlyReading booksOnShelf={this.state.currentlyReading} />
-                <WantToRead booksOnShelf={this.state.wantToRead} />
-                <HaveRead booksOnShelf={this.state.read}/>
+                <Shelf
+                  booksOnShelf={this.state.currentlyReading}
+                  title="Currently Reading"
+                />
+                <Shelf
+                  booksOnShelf={this.state.wantToRead}
+                  title="Want to Read"
+                />
+                <Shelf
+                  booksOnShelf={this.state.read}
+                  title="Read"
+                />
               </div>
             </div>
             <div className="open-search">

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Book from './Book';
 
 
-class CurrentlyReading extends Component {
+class Shelf extends Component {
 
   render() {
 
@@ -10,7 +10,7 @@ class CurrentlyReading extends Component {
 
     return (
       <div className="bookshelf">
-        <h2 className="bookshelf-title">Currently Reading</h2>
+        <h2 className="bookshelf-title">{this.props.title}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
             {booksOnShelf.map((book, index) => (
@@ -26,4 +26,4 @@ class CurrentlyReading extends Component {
 
 }
 
-export default CurrentlyReading
+export default Shelf
