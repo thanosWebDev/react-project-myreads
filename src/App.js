@@ -59,7 +59,7 @@ class BooksApp extends React.Component {
             <Header />
             <div className="list-books-content">
               <div>
-                <CurrentlyReading />
+                <CurrentlyReading booksOnShelf={this.state.currentlyReading} />
                 <WantToRead />
                 <HaveRead />
               </div>
