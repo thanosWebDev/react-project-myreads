@@ -3,11 +3,14 @@ import Header from './Header'
 import CurrentlyReading from './CurrentlyReading'
 import WantToRead from './WantToRead'
 import HaveRead from './HaveRead'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 class BooksApp extends React.Component {
   state = {
+    currentlyReading: [],
+    wantToRead: [],
+    read: [],
     /**
      * TODO: Instead of using this state variable to keep track of which page
      * we're on, use the URL in the browser's address bar. This will ensure that
@@ -15,6 +18,16 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false
+  }
+
+  // Set initial state: get books from server and filter them to shelves
+  componentDidMount() {
+    BooksAPI.getAll().then((books) => {
+      const currentlyReading = books.filter(book => book.shelf === 'currentlyReading');
+      const wantToRead = books.filter(book => book.shelf === 'wantToRead');
+      const read = books.filter(book => book.shelf === 'read');
+      this.setState({ currentlyReading, wantToRead, read })
+    })
   }
 
   render() {
