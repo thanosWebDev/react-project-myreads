@@ -28,6 +28,33 @@ class BooksApp extends React.Component {
     })
   }
 
+  //Remove book from current shelf
+  removeBook = (book) => {
+    const Shelf = book.shelf;
+    this.setState(state => ({
+      [Shelf]: state[Shelf].filter( b => b.id !== book.id )
+    }))
+  }
+
+  //Add book to shelf
+  addBook = (book, targetShelf) => {
+    let bookToMove = book;
+    bookToMove.shelf = targetShelf;
+    this.setState(state => ({
+      [targetShelf]: state[targetShelf].concat([bookToMove])
+    }))
+  }
+
+  //Move book to new shelf or remove
+  moveShelf = (book, targetShelf) => {
+  if (targetShelf !== 'none') {
+    this.removeBook(book);
+    this.addBook(book, targetShelf);
+  } else {
+    this.removeBook(book);
+  }
+  }
+
   render() {
     return (
       <div className="app">
@@ -60,14 +87,17 @@ class BooksApp extends React.Component {
                 <Shelf
                   booksOnShelf={this.state.currentlyReading}
                   title="Currently Reading"
+                  onMoveShelf={this.moveShelf}
                 />
                 <Shelf
                   booksOnShelf={this.state.wantToRead}
                   title="Want to Read"
+                  onMoveShelf={this.moveShelf}
                 />
                 <Shelf
                   booksOnShelf={this.state.read}
                   title="Read"
+                  onMoveShelf={this.moveShelf}
                 />
               </div>
             </div>
