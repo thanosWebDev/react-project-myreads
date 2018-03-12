@@ -8,14 +8,17 @@ class Book extends Component {
   }
 
   render() {
-
     const {book} = this.props;
     const {onMoveShelf} = this.props;
+    // Check for cover
+    const cover = !book.imageLinks ? '/no_cover.jpg' : book.imageLinks.smallThumbnail;
+    // Check for author
+    const authors = !book.authors ? ['No author available'] : book.authors;
 
     return (
       <div className="book">
         <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
+          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${cover})` }}></div>
           <div className="book-shelf-changer">
             <select value={book.shelf}
               onChange={(event) => onMoveShelf(book, event.target.value)}>
@@ -29,12 +32,11 @@ class Book extends Component {
         </div>
         <div className="book-title">{book.title}</div>
         <div className="book-authors">
-          {book.authors.map((author, index) => (<div key={index}>{author}</div>))}
+          {authors.map((author, index) => (<div key={index}>{author}</div>))}
         </div>
       </div>
     )
   }
-
 }
 
 export default Book
