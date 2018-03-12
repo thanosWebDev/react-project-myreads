@@ -10,7 +10,7 @@ class BooksApp extends React.Component {
   state = {
     currentlyReading: [],
     wantToRead: [],
-    read: [],
+    read: []
   }
 
   // Set initial state: get books from server and filter them to shelves
@@ -25,9 +25,9 @@ class BooksApp extends React.Component {
 
   //Remove book from current shelf
   removeBook = (book) => {
-    const Shelf = book.shelf;
+    const shelf = book.shelf;
     this.setState(state => ({
-      [Shelf]: state[Shelf].filter( b => b.id !== book.id )
+      [shelf]: state[shelf].filter( b => b.id !== book.id )
     }))
   }
 
@@ -42,12 +42,21 @@ class BooksApp extends React.Component {
 
   //Move book to new shelf or remove
   moveShelf = (book, targetShelf) => {
-  if (targetShelf !== 'none') {
-    this.removeBook(book);
-    this.addBook(book, targetShelf);
-  } else {
-    this.removeBook(book);
+    if (book.shelf === 'none') {
+      this.addBook(book, targetShelf);
+      console.log('book added');
+    } else if (targetShelf !== 'none') {
+      this.removeBook(book);
+      this.addBook(book, targetShelf);
+      console.log('book moved');
+    } else {
+      this.removeBook(book);
+      console.log('book deleted');
+    }
   }
+
+  allBooks = () => {
+    return this.state.currentlyReading.concat(this.state.wantToRead, this.state.read);
   }
 
   render() {
@@ -59,27 +68,29 @@ class BooksApp extends React.Component {
           <Switch>
             <Route exact path='/' render={() => (
               <div>
-              <div className="list-books-content">
-                  <Shelf  booksOnShelf={this.state.currentlyReading}
-                          title="Currently Reading"
-                          onMoveShelf={this.moveShelf}
-                  />
-                  <Shelf  booksOnShelf={this.state.wantToRead}
-                          title="Want to Read"
-                          onMoveShelf={this.moveShelf}
-                  />
-                  <Shelf  booksOnShelf={this.state.read}
-                          title="Read"
-                          onMoveShelf={this.moveShelf}
-                  />
-              </div>
-              <div className="open-search">
-                <Link to='/search'>Add a book</Link>
-              </div>
+                <div className="list-books-content">
+                    <Shelf  booksOnShelf={this.state.currentlyReading}
+                            title="Currently Reading"
+                            onMoveShelf={this.moveShelf}
+                    />
+                    <Shelf  booksOnShelf={this.state.wantToRead}
+                            title="Want to Read"
+                            onMoveShelf={this.moveShelf}
+                    />
+                    <Shelf  booksOnShelf={this.state.read}
+                            title="Read"
+                            onMoveShelf={this.moveShelf}
+                    />
+                </div>
+                <div className="open-search">
+                  <Link to='/search'>Add a book</Link>
+                </div>
               </div>
             )}/>
             <Route exact path='/search' render={() => (
-              <SearchBooks />
+              <SearchBooks  onMoveShelf={this.moveShelf}
+                            allBooks={this.allBooks}
+              />
             )}/>
             <Route path="*" render={() => (
               <Redirect to='/'  />
