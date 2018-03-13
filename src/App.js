@@ -29,6 +29,7 @@ class BooksApp extends React.Component {
     this.setState(state => ({
       [shelf]: state[shelf].filter( b => b.id !== book.id )
     }))
+    BooksAPI.update(book, 'none');
   }
 
   //Add book to shelf
@@ -38,20 +39,18 @@ class BooksApp extends React.Component {
     this.setState(state => ({
       [targetShelf]: state[targetShelf].concat([bookToMove])
     }))
+    BooksAPI.update(book, targetShelf);
   }
 
   //Move book to new shelf or remove
   moveShelf = (book, targetShelf) => {
     if (book.shelf === 'none') {
       this.addBook(book, targetShelf);
-      console.log('book added');
     } else if (targetShelf !== 'none') {
       this.removeBook(book);
       this.addBook(book, targetShelf);
-      console.log('book moved');
     } else {
       this.removeBook(book);
-      console.log('book deleted');
     }
   }
 
