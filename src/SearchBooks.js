@@ -7,6 +7,10 @@ import trimStart from 'lodash/trimStart'
 
 
 class SearchBooks extends Component {
+    static propTypes = {
+        allBooks: PropTypes.func.isRequired,
+        onMoveShelf: PropTypes.func.isRequired
+    }
 
     state = {
         query: '',
