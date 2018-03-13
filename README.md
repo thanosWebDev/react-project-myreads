@@ -1,6 +1,7 @@
 # MyReads: A Book Tracking App
 
 This App is part of "React Nanodegree Program" and "React Fundamentals" course project.
+In this web-app you can search for books and add them to your library in three different shelves. Books can be moved from one shelf to another or can be deleted from the library.
 
 
 ## How to run the App
