@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import trimEnd from 'lodash/trimEnd'
 import trimStart from 'lodash/trimStart'
+import PropTypes from 'prop-types';
 
 
 class SearchBooks extends Component {
