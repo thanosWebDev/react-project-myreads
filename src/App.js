@@ -7,13 +7,15 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 class BooksApp extends React.Component {
+
+  // This state hold the tree different shelves
   state = {
     currentlyReading: [],
     wantToRead: [],
     read: []
   }
 
-  // Set initial state: get books from server and filter them to shelves
+  // Sets initial state: get books from server and filter them to the shelves
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       const currentlyReading = books.filter(book => book.shelf === 'currentlyReading');
@@ -23,26 +25,29 @@ class BooksApp extends React.Component {
     })
   }
 
-  //Remove book from current shelf
+  //Remove book from it's current shelf
   removeBook = (book) => {
     const shelf = book.shelf;
     this.setState(state => ({
       [shelf]: state[shelf].filter( b => b.id !== book.id )
     }))
+    // Update the backend server
     BooksAPI.update(book, 'none');
   }
 
-  //Add book to shelf
+  //Add a book to a shelf
   addBook = (book, targetShelf) => {
     let bookToMove = book;
+    // Update book with the new shelf
     bookToMove.shelf = targetShelf;
     this.setState(state => ({
       [targetShelf]: state[targetShelf].concat([bookToMove])
     }))
+    // Update the backend server
     BooksAPI.update(book, targetShelf);
   }
 
-  //Move book to new shelf or remove
+  //Move book to a new shelf or remove it from library
   moveShelf = (book, targetShelf) => {
     if (book.shelf === 'none') {
       this.addBook(book, targetShelf);
@@ -54,6 +59,7 @@ class BooksApp extends React.Component {
     }
   }
 
+  // Return an array with all books in the library for the search component crossreference
   allBooks = () => {
     return this.state.currentlyReading.concat(this.state.wantToRead, this.state.read);
   }

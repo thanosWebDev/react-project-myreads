@@ -10,9 +10,9 @@ class Book extends Component {
   render() {
     const {book} = this.props;
     const {onMoveShelf} = this.props;
-    // Check for cover
+    // Check for missing cover and put a placeholder
     const cover = !book.imageLinks ? '/no_cover.jpg' : book.imageLinks.smallThumbnail;
-    // Check for author
+    // Check for missing author
     const authors = !book.authors ? ['No author available'] : book.authors;
 
     return (

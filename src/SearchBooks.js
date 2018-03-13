@@ -12,15 +12,17 @@ class SearchBooks extends Component {
         onMoveShelf: PropTypes.func.isRequired
     }
 
+    // The state holds the query and search results
     state = {
         query: '',
         bookResults: [],
     }
 
-    // Crossreference search results with bookshelves and update them accordingly 
+    // Crossreference search results with existed books and update them accordingly 
     crossReference = (searchResults) => {
         let results = searchResults;
         const onShelves = this.props.allBooks();
+        // if results exist then do the crossreference
         if (!results.error) {
             const updatedResults = results.map( book => {
                 const bookExist =  onShelves.find( b => b.id === book.id );
@@ -29,9 +31,11 @@ class SearchBooks extends Component {
             });
             results = updatedResults;
         }
+        // return the final updated results
         return results
     }
 
+    // Call the BooksAPI to search for books if there is a query
     searchBooks = (query) => {
         const match = trimEnd(query);
         if (!query) {
@@ -40,7 +44,7 @@ class SearchBooks extends Component {
             BooksAPI.search(match).then((books) => {
                 const results = this.crossReference(books)
                 if (!this.state.query) {
-                    // clear possible async search results
+                    // clear possible async search results from state
                     this.setState({ bookResults: []})
                 } else {
                     this.setState({ bookResults: results})
@@ -49,6 +53,7 @@ class SearchBooks extends Component {
         }
     }
 
+    // Handles the input-form state in the component and fires 'Search' every time a charachter is typed
     updateQuery = (query) => {
         this.setState({ query: trimStart(query) }, function() {
             this.searchBooks(this.state.query); 
